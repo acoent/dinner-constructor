@@ -27,6 +27,8 @@ public class Main {
                     break;
                 case "3":
                     return;
+                default:
+                    System.out.println("Такой команды пока что нет");
             }
         }
     }
@@ -45,12 +47,7 @@ public class Main {
         String dishName = scanner.nextLine();
 
         // добавьте новое блюдо
-        if (!dish.containsKey(dishType)) {
-            dish.put(dishType, new ArrayList<>());
-        }
-        if (!dish.get(dishType).contains(dishName)) {
-            dish.get(dishType).add(dishName);
-        }
+        dc.addDish(dishType, dishName);
     }
 
     private static void generateDishCombo() {
@@ -67,18 +64,12 @@ public class Main {
             if (nextItem.isEmpty()) {
                 break;
             }
-            if (dish.containsKey(nextItem)) {
+            if (dc.checkType(nextItem)) {
                 wishlist.add(nextItem);
+            } else{
+                System.out.println("Введённого типа блюда нет в списке. Повторите или дополните ввод");
             }
         }
-        for (int j = 1; j <= numberOfCombos; j++) {
-            System.out.println("Комбо " + j);
-            String combo = "";
-            // сгенерируйте комбинации блюд и выведите на экран
-            for (String s : wishlist) {
-                combo += ", " + dc.getRandomDish(dish.get(s));
-            }
-            System.out.println(combo.substring(2));
-        }
+        dc.getCombo(numberOfCombos, wishlist);
     }
 }
